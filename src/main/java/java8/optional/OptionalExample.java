@@ -99,8 +99,6 @@ public class OptionalExample {
 
     }
 
-
-
     // Some dummy costly operation function
     private static String someCostlyOperation(){
         System.out.println("Performing some costly operation");
