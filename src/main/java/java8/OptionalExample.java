@@ -47,5 +47,53 @@ public class OptionalExample {
         String isEmptyString = null;
         Optional<String> isEmptyOptional = Optional.ofNullable(isEmptyString);
         System.out.println("Is Optional empty? "+isEmptyOptional.isEmpty());
+
+        //To get default value in case of Optional is empty using OrElse
+        //It requires only one parameter
+        String orElseString = null;
+        orElseString = Optional.ofNullable(orElseString).orElse("default string");
+        System.out.println(orElseString);
+
+        //To get default value in case of Optional is empty using orElseGet
+        //It requires Supplier function
+        String orElseGetString = null;
+        orElseGetString = Optional.ofNullable(orElseGetString).orElseGet(()->"default string");
+        System.out.println(orElseGetString);
+
+        //Understand difference between orElse and orElseGet
+        //orElse will be executed no matter Optional is empty or not.
+        //orElseGet will be only executed if Optional is empty.
+        //in case of empty optional, both methods will be executed.
+        //It is recommended to use orElseGet method when there is costly operation involved.
+        String testString = "test string";
+        System.out.println("Executing orElse method");
+        String s1 = Optional.of(testString).orElse(someCostlyOperation());
+        System.out.println("Executing orElseGet method");
+        String s2 = Optional.of(testString).orElseGet(OptionalExample::someCostlyOperation);
+
+        //In case when we don't want to return default value,
+        // instead throw an exception use orElseThrow
+        Object receivedArgument = null;
+        //Below line will throw runtime IllegalArgumentException
+        //Optional.ofNullable(receivedArgument).orElseThrow(IllegalArgumentException::new);
+        //Below line will throw runtime NoSuchElementException: No value present
+        //Optional.ofNullable(receivedArgument).orElseThrow();
+
+        //To get value from Optional use get method
+        //If Optional is empty then NoSuchElementException will be thrown
+        //It is recommended to use other way of retrieve value out of Optional
+        Integer i = 1;
+        Optional<Integer> integerOptional = Optional.of(i);
+        integerOptional.ifPresent(integer -> System.out.println(integer));
+        i = null;
+        Optional<Integer> integerOptional1 = Optional.ofNullable(i);
+        //Below line will throw runtime NoSuchElementException: No value present
+        //integerOptional1.get();
+
+    }
+
+    private static String someCostlyOperation(){
+        System.out.println("Performing some costly operation");
+        return "return value after costly operation";
     }
 }
