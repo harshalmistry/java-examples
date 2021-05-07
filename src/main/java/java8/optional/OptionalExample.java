@@ -1,12 +1,13 @@
-package java8;
+package java8.optional;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * This is java Optional example, introduced in Java8.
  * This class provides type level solution for representing optional values
  * instead of null references.
+ * Optional is meant to be used as a return type. Trying to use it as a field type is not recommended.
  *
  * @author niharsh
  * @created 07/05/2021 - 20:04
@@ -90,8 +91,17 @@ public class OptionalExample {
         //Below line will throw runtime NoSuchElementException: No value present
         //integerOptional1.get();
 
+        //Optional + filter example
+        //This is very useful to do certain check, like password check, range check of any field, etc
+        int number = new Random().nextInt(10);
+        boolean isEven = Optional.of(number).filter(n -> n % 2 == 0).isPresent();
+        System.out.println("Number - "+number+" is even? " + isEven);
+
     }
 
+
+
+    // Some dummy costly operation function
     private static String someCostlyOperation(){
         System.out.println("Performing some costly operation");
         return "return value after costly operation";
